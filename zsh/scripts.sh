@@ -1,14 +1,16 @@
 #!/bin/zsh
 
+# Compress a directory
 compress() {
     tar cvzf $1.tar.gz $1
 }
 
+# Fuzzy find a tmuxp layout config
 ftmuxp() {
     if [[ -n $TMUX ]]; then
         return
     fi
-    
+
     # get the IDs
     ID="$(ls $XDG_CONFIG_HOME/tmuxp | sed -e 's/\.yml$//')"
     if [[ -z "$ID" ]]; then
@@ -27,4 +29,21 @@ ftmuxp() {
         printf '\033]777;tabbedx;set_tab_name;%s\007' "$ID"
         tmuxp load "$ID"
     fi
+}
+
+# open man page in vim
+vman() {
+    nvim -c "SuperMan $*"
+
+    if [ "$?" != "0" ]; then
+        echo "No manual entry for $*"
+    fi
+}
+
+duckduckgo() {
+    lynx -vikeys -accept_all_cookies "https://lite.duckduckgo.com/lite/?q=$@"
+}
+
+wikipedia() {
+    lynx -vikeys -accept_all_cookies "https://en.wikipedia.org/wiki?search=$@"
 }

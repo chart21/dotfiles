@@ -35,7 +35,6 @@ URxvt*scrollBar: false
 URxvt*saveLines: 5000
   
 URxvt*perl-ext-common: default,tabbedex
-
 URxvt.keysym.Control-Shift-N: perl:tabbedex:new_tab
 URxvt.keysym.Control-Shift-K: perl:tabbedex:next_tab
 URxvt.keysym.Control-Shift-J: perl:tabbedex:prev_tab
