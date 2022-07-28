@@ -1,0 +1,16 @@
+Vimium FF,i3wm,tmux,nvim,zsh
+x: close tab,v/h: split,
+X: Restore tab,e/s/w: default/stacking/tabbed,
+gg: Top of Page,Shift + 0-9: Move window to workspace,
+G: Bottom of Page,a: focus parent (??)
+u/c-f: Scroll up,
+d/c-b: Half page down,
+O: Open URL in new tab,
+gs: View page source,
+N: Previous match,
+yy: copy URL to clipboard,
+gf: cycle focus to next frame,
+gF: select main frame
+
+
+
