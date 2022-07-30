@@ -5,7 +5,7 @@ alias gp='git push'
 
 alias d='dirs -v'
 
-alias lc='colorls -a --gs'
+alias lc='colorls'
 
 
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
