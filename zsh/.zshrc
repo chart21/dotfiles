@@ -69,3 +69,27 @@ bindkey -s '^g' 'clear\n'
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
+source /usr/share/zsh/plugins/zsh-directory-history/zsh-directory-history.zsh
+
+# Key Bindings for direcotry search
+  # Bind keys to navigate through your history
+  bindkey "^[[1;5D" directory-history-search-backward
+  bindkey "^[[1;5C" directory-history-search-forward
+        
+  # Bind to substring search
+  bindkey '^[f' history-substring-search-up
+  bindkey '^[b' history-substring-search-down
+
+# alt+<- | alt+->
+#bindkey "^[f" forward-word
+#bindkey "^[b" backward-word
+
+# ctrl+<- | ctrl+->
+#bindkey "^[[1;5D" backward-word
+#bindkey "^[[1;5C" forward-word
+path+=(
+    $(ruby -e 'puts File.join(Gem.user_dir, "bin")')
+)
+
+
