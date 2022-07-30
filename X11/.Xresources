@@ -27,24 +27,55 @@
 *.color7: #e4e4e4
 *.color15: #ffffff
 
-URxvt*font: xft:Inconsolata Nerd Font Mono:style=Medium:size=20:pixelsize=22:antialias=true
+URxvt*font: xft:Inconsolata Nerd Font Mono:style=Medium:size=20:pixelsize=20:antialias=true
+
 URxvt*borderLess: false
 URxvt*externalBorder: 0
 URxvt*internalBorder: 4
 URxvt*scrollBar: false
+URxvt*cursorColor: #ffffff
+! Useful for transparency
+URxvt*depth: 32
+URxvt.background: [85]#181815
+! Might be used by tmux
+URxvt*termName: rxvt-unicode
+! Might be used by tmux?
+! We dont need to source zprofile each time terminal is open
+! URxvt*loginShell: true
+! URxvt*hold: false
 URxvt*saveLines: 5000
-  
-URxvt*perl-ext-common: default,tabbedex
+! +--------+
+! | Scroll |
+! +--------+
+!! Perl Extensions !!
+URxvt*perl-ext-common: tabbedex,resize-font
+! To consider:
+! https://github.com/muennich/urxvt-perls/blob/master/keyboard-select
+!URxvt.keysym.C-Down: resize-font:smaller
+!URxvt.keysym.C-Up: resize-font:bigger
+!URxvt.keysym.C-equal: resize-font:reset
+!URxvt.keysym.C-question: resize-font:show
+URxvt*letterSpace: -1
+! +------+
+! | Tabs |
+! +------+
 URxvt.keysym.Control-Shift-N: perl:tabbedex:new_tab
 URxvt.keysym.Control-Shift-K: perl:tabbedex:next_tab
 URxvt.keysym.Control-Shift-J: perl:tabbedex:prev_tab
+URxvt.keysym.Control-Shift-X: perl:tabbedex:kill_tab
 URxvt.keysym.Control-Shift-R: perl:tabbedex:rename_tab
 URxvt.keysym.Control-Shift-H: perl:tabbedex:move_tab_left
 URxvt.keysym.Control-Shift-L: perl:tabbedex:move_tab_right
-
+! Disable bell
+URxvt.tabbedex.bell-timeout: 0
+! Hide activity indicators
+URxvt.tabbedex.tabbar-timeouts: 0:  :10:  
+! Design for tabs
+URxvt*tabbedex.title: false
+! URxvt*tabbedex.title-fg: 110
 URxvt*tabbedex.tabbar-fg: 15
 URxvt*tabbedex.tabbar-bg: 236
-URxvt*tabbedex.tab-fg: 110
+URxvt*tabbedex.tab-fg: bold 167
 URxvt*tabbedex.tab-bg: 236
-URxvt*tabbedex.transparent: true
+URxvt*tabbedex.transparent:true
 URxvt*tabbedex.new-button: false
