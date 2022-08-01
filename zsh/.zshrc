@@ -30,6 +30,7 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
+
 source ~/dotfiles/zsh/external/web-search.zsh
 source ~/dotfiles/zsh/external/bd.zsh
 
@@ -67,19 +68,11 @@ bindkey -r '^l'
 bindkey -r '^g'
 bindkey -s '^g' 'clear\n'
 
+source ~/dotfiles/zsh/external/dirhistory.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
-source /usr/share/zsh/plugins/zsh-directory-history/zsh-directory-history.zsh
 
-# Key Bindings for direcotry search
-  # Bind keys to navigate through your history
-  bindkey "^[[1;5D" directory-history-search-backward
-  bindkey "^[[1;5C" directory-history-search-forward
-        
-  # Bind to substring search
-  bindkey '^[f' history-substring-search-up
-  bindkey '^[b' history-substring-search-down
 
 # alt+<- | alt+->
 #bindkey "^[f" forward-word
@@ -88,6 +81,9 @@ source /usr/share/zsh/plugins/zsh-directory-history/zsh-directory-history.zsh
 # ctrl+<- | ctrl+->
 #bindkey "^[[1;5D" backward-word
 #bindkey "^[[1;5C" forward-word
+
+#Colorls
+source $(dirname $(gem which colorls))/tab_complete.sh
 path+=(
     $(ruby -e 'puts File.join(Gem.user_dir, "bin")')
 )
