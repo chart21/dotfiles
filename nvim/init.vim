@@ -5,12 +5,46 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'simeji/winresizer'
     Plug 'junegunn/fzf.vim'
     Plug 'simnalamburt/vim-mundo'
-    Plug 'christoomey/vim-tmux-navigator'
+    " Plug 'christoomey/vim-tmux-navigator'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-abolish'
 
+
+    Plug 'preservim/nerdtree'
+
+    " Plug 'glepnir/dashboard-nvim' " does not seem to do anything
+    
+    Plug 'tpope/vim-commentary'
     " For coc.vim to work, you'll need nodejs and yarn (both available in official repos).
     " Only bash-language-server is configured with coc.vim. See the file coc-settings.json.
     " To make it work, you need to install bash-language-server: `sudo pacman -S bash-language-server`
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+    Plug 'github/copilot.vim'
+
+    Plug 'rafi/awesome-vim-colorschemes'
+
+    Plug 'ryanoasis/vim-devicons'
+
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    
+    " Debugger
+    Plug 'puremourning/vimspector'
+
+    " CPP Auto format
+    Plug 'rhysd/vim-clang-format'
+
+    " CPP Testing
+    Plug 'alepez/vim-gtest'
+
+    " CPP CMake integrations
+    Plug 'cdelledonne/vim-cmake'
+    Plug 'antoinemadec/FixCursorHold.nvim'
+
+    " CPP Linter
+    Plug 'vim-syntastic/synstastic'
+    " Better pair handling
+    Plug 'jiangmiao/auto-pairs'
 
     " Collection of snippets
     Plug 'honza/vim-snippets'
@@ -19,10 +53,18 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'neomake/neomake'
 
     " Theme gruvbox
-    Plug 'morhetz/gruvbox'
+    " Plug 'morhetz/gruvbox'
+
+    " Highlight Color codes
+    Plug 'norcalli/nvim-colorizer.lua'
 
     " Status bar
     Plug 'itchyny/lightline.vim'
+
+    " High Contrast Theme
+    " Plug 'https://github.com/protesilaos/tempus-themes/blob/master/vim/tempus_totus.vim'
+    " Vim One Theme
+    " Plug 'rakr/vim-one'
 
     "tmux
     Plug 'wellle/tmux-complete.vim'
@@ -32,7 +74,17 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
 
     " Man pages in Neovim
     Plug 'jez/vim-superman'
-call plug#end()
+
+    Plug 'folke/which-key.nvim'
+    " On-demand lazy load
+    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+
+    " High Contrast Colors:
+    " Plug 'https://www.markusweimar.de/static/contrasty-brightness.vim'
+    "Themes
+    " Plug 'cormacrelf/vim-colors-github'
+    Plug 'ayu-theme/ayu-vim'
+    call plug#end()
 
 set clipboard+=unnamedplus
 
@@ -47,15 +99,11 @@ set noswapfile
 set undofile
 set undodir=$HOME/.config/nvim/undo
 
-" number of undo saved
-set undolevels=10000
-set undoreload=10000
-
-set number
-
+" number of undo save
 " use 4 spaces instead of tab ()
 " copy indent from current line when starting a new line
-
+set number
+set relativenumber
 set autoindent
 set expandtab
 set tabstop=4
@@ -105,8 +153,12 @@ let g:coc_global_extensions = [
             \ 'coc-markmap',
             \ 'coc-sh',
             \ 'coc-texlab',
+            \ 'coc-pyright',
+            \ 'coc-clang-format-style-options'
             \]
 
+
+"             \ 'coc-spell-checker', -> can be annoying
 
 " Some servers have issues with backup files, see #649.
 set nobackup
@@ -114,6 +166,9 @@ set nowritebackup
 
 " Give more space for displaying messages.
 set cmdheight=2
+
+"ignore case when searching
+set ignorecase smartcase infercase
 
 
 " Taken from coc.nvim Github Page
@@ -182,8 +237,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>F  <Plug>(coc-format-selected)
+nmap <leader>F  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -315,10 +370,71 @@ let g:neomake_vim_enabled_makers = ['vint']
 "# Gruvbox #
 "###########
 
-autocmd vimenter * ++nested colorscheme gruvbox 
+" autocmd vimenter * ++nested colorscheme lightning
 
 "#############
 "# lightline #
 "#############
 
-let g:lightline = {'colorscheme': 'wombat',}
+let g:lightline = {'colorscheme': 'one'}
+
+
+" set termguicolors
+set termguicolors
+
+set background=light
+" colorschme github
+colorscheme github
+
+lua require'colorizer'.setup()
+
+" CPP Linter Setup
+let g:syntastic_cpp_checkers = ['cpplint']
+let g:syntastic_c_checkers = ['cpplint']
+let g:syntastic_cpp_cpplint_exec = 'cpplint'
+" The following two lines are optional. Configure it to your liking!
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" CMake setup
+let g:cmake_link_compile_commands = 1
+nmap <leader>cg :CMakeGenerate<cr>
+nmap <leader>cb :CMakeGenerate<cr>
+
+"Google Test setup
+nmap <leader>gt :GTestRunUnderCursor<cr>
+
+"VimSpector Setup
+
+ nnoremap <leader>db :call vimspector#Launch()<CR>
+ nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
+ nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
+ nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
+ nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
+ nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
+ nnoremap <leader>di :call AddToWatch()<CR>
+ nnoremap <leader>dx :call vimspector#Reset()<CR>
+ nnoremap <leader>dX :call vimspector#ClearBreakpoints()<CR>
+ nnoremap <S-h> :call vimspector#StepOut()<CR>
+ nnoremap <S-l> :call vimspector#StepInto()<CR>
+ nnoremap <S-j> :call vimspector#StepOver()<CR>
+ nnoremap <leader>d_ :call vimspector#Restart()<CR>
+ nnoremap <leader>dn :call vimspector#Continue()<CR>
+ nnoremap <leader>drc :call vimspector#RunToCursor()<CR>
+ nnoremap <leader>dh :call vimspector#ToggleBreakpoint()<CR>
+
+
+ " Theme setups
+ let ayucolor="light"
+
+" Practical Vim
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+nnoremap & :&&<CR>
+xnoremap & : &&<CR>
+
+set grepprg=ack\ --nogroup\ --column\ $*
+set grepformat=%f:%l:%c:%m
+
+set nocompatible
+filetype plugin on

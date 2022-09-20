@@ -10,7 +10,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Inconsolata NF 12
+font pango:Inconsolata NF 16
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -207,13 +207,13 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # special
-set_from_resource $foreground foreground #C6C6C6
-set_from_resource $background background #1C1C1C
-set_from_resource $cursorColor cursorColor #C6C6C6
+set_from_resource $foreground foreground #000000
+set_from_resource $background background #FFFFFF
+set_from_resource $cursorColor cursorColor #000000
 
 # black
 set_from_resource $black1 color0 #303030
-set_from_resource $black2 color8 #444444
+set_from_resource $black2 color8 #000000
 set $trueblack #000000
 
 # red
@@ -282,14 +282,14 @@ bar {
 
     # tray_output primary
     colors {
-        background $black2
-        statusline $white2
-        separator $white2
+        background $white2
+        statusline $black2
+        separator $black2
 
         # border background text
-        focused_workspace 	$background $background $red1
-        active_workspace 	$black2 $black1 $white2
-        inactive_workspace 	$black1 $black2 $foreground
+        focused_workspace 	$black2 $black1 $white2
+        active_workspace 	$white2 $white1 $black2
+        inactive_workspace 	$white1 $white2 $red2
         urgent_workspace 	$red1 $red1 $white2
         binding_mode 		$background $red2 $white2
     }
@@ -308,5 +308,3 @@ bindsym $mod+x mode "$mode_display"
 
 exec --no-startup-id dunst
 
-# Remap Caps Lock key when external keyboard is plugged
-bindsym $mod+z exec "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"

@@ -7,5 +7,6 @@
             "ignoredRootPaths": ["~"]
         }
     },
-    "diagnostic.enable": false
+    "diagnostic.enable": false,
+    "clangd.fallbackFlags": ["-std=c++17"]
 }
