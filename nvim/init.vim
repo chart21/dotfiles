@@ -1,23 +1,39 @@
 " Plugins
 call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'chrisbra/csv.vim'
+
+    ":Bdelete, :Bwipeout Better behavior to delete buffers 
     Plug 'moll/vim-bbye'
+
+    "C+e to go into resize mode
     Plug 'simeji/winresizer'
+    
+    ":Files, :Buffers, ... to fzf, Rg to fzf grep
     Plug 'junegunn/fzf.vim'
+
+    " Need checking
     Plug 'simnalamburt/vim-mundo'
+    
     " Plug 'christoomey/vim-tmux-navigator'
+    
+    " change surrounds: cs'" delete sorrounds: ds'  add surrounds: ysiw"
     Plug 'tpope/vim-surround'
+    
+    " Better substitution :%Subvert/facilit{y,ies}/building{,s}/g 
     Plug 'tpope/vim-abolish'
 
-
+    " C-t: NerdTreeToggle, leader+n, NerdTreeFocus, C+F find, C+n nerdtree
     Plug 'preservim/nerdtree'
 
     " Plug 'glepnir/dashboard-nvim' " does not seem to do anything
-    
+  
+    " gc to comment/uncomment
     Plug 'tpope/vim-commentary'
-    " For coc.vim to work, you'll need nodejs and yarn (both available in official repos).
+    "
+    "For coc.vim to work, you'll need nodejs and yarn (both available in official repos).
     " Only bash-language-server is configured with coc.vim. See the file coc-settings.json.
     " To make it work, you need to install bash-language-server: `sudo pacman -S bash-language-server`
+    " Check seperatly
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     Plug 'github/copilot.vim'
@@ -438,3 +454,9 @@ set grepformat=%f:%l:%c:%m
 
 set nocompatible
 filetype plugin on
+
+" Nerd Tree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-F> :NERDTreeFind<CR>
