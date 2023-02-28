@@ -12,6 +12,11 @@ autoload -Uz compinit; compinit
 _comp_options+=(globdots) # With hidden files
 source ~/dotfiles/zsh/external/completion.zsh
 
+
+source ~/dotfiles/zsh/external/zsh_codex/zsh_codex.plugin.zsh
+bindkey '^X' create_completion
+
+
 autoload -Uz prompt_purification_setup; prompt_purification_setup
 
 # Push the current directory visited on to the stack.
@@ -20,6 +25,9 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 # Do not print the directory stack after using
 setopt PUSHD_SILENT
+
+#allow comment character '#'
+setopt interactivecomments
 
 bindkey -v
 export KEYTIMEOUT=1

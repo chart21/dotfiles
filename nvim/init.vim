@@ -36,6 +36,17 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     " Check seperatly
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+    
+    "Chatgpt nvim:
+    "Requirements for chatgpt
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug  'nvim-telescope/telescope.nvim'
+    "Plugin
+    Plug 'jackMort/ChatGPT.nvim'
+
+    
+
     Plug 'github/copilot.vim'
 
     Plug 'rafi/awesome-vim-colorschemes'
@@ -460,3 +471,8 @@ nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-F> :NERDTreeFind<CR>
+
+" Chatgpt
+
+lua require 'chatgpt'.setup({})
+
