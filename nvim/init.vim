@@ -1,3 +1,4 @@
+lua require('plugins')
 " Plugins
 call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'chrisbra/csv.vim'
@@ -11,8 +12,10 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
 
 
     Plug 'preservim/nerdtree'
+    Plug 'github/copilot.vim'
 
     " Plug 'glepnir/dashboard-nvim' " does not seem to do anything
+    " Plug 'jackMort/ChatGPT.nvim'
     
     Plug 'tpope/vim-commentary'
     " For coc.vim to work, you'll need nodejs and yarn (both available in official repos).
@@ -129,6 +132,7 @@ augroup END
 
 " Config for fzf.vim (BONUS :D)
 nnoremap <leader>f :Files<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
 
 nnoremap <c-w>h <c-w>s
 
@@ -382,9 +386,9 @@ let g:lightline = {'colorscheme': 'one'}
 " set termguicolors
 set termguicolors
 
-set background=light
+set background=dark
 " colorschme github
-colorscheme github
+colorscheme onedark
 
 lua require'colorizer'.setup()
 
@@ -438,3 +442,6 @@ set grepformat=%f:%l:%c:%m
 
 set nocompatible
 filetype plugin on
+
+" Auto Pairs
+let g:AutoPairsFlyMode = 1
