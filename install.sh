@@ -23,12 +23,12 @@ ln -sf "$DOTFILES/nvim/autoload/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.v
 # Install (or update) all the plugins
 nvim --noplugin +PlugUpdate +qa
 
-#######
-## i3 #
-#######
+######
+# i3 #
+######
 
-#rm -rf "$XDG_CONFIG_HOME/i3"
-#ln -s "$DOTFILES/i3" "$XDG_CONFIG_HOME"
+rm -rf "$XDG_CONFIG_HOME/i3"
+ln -s "$DOTFILES/i3" "$XDG_CONFIG_HOME"
 
 #######
 # Zsh #
@@ -59,18 +59,18 @@ ln -sf "$DOTFILES/zsh/external" "$XDG_CONFIG_HOME/zsh"
 ## tmux #
 #########
 
-#mkdir -p "$XDG_CONFIG_HOME/tmux"
-#ln -sf "$DOTFILES/tmux/tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
+mkdir -p "$XDG_CONFIG_HOME/tmux"
+ln -sf "$DOTFILES/tmux/tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
 
-#[ ! -d "$XDG_CONFIG_HOME/tmux/plugins" ] \
-#&& git clone https://github.com/tmux-plugins/tpm \
-#"$XDG_CONFIG_HOME/tmux/plugins/tpm"
+[ ! -d "$XDG_CONFIG_HOME/tmux/plugins" ] \
+&& git clone https://github.com/tmux-plugins/tpm \
+"$XDG_CONFIG_HOME/tmux/plugins/tpm"
 
 #########
 ## zathura#
 #########
 
-#mkdir -p "$XDG_CONFIG_HOME/zathura"
-#ln -sf "$DOTFILES/zathura/zathurarc" "$XDG_CONFIG_HOME/zathura/zathurarc"
+mkdir -p "$XDG_CONFIG_HOME/zathura"
+ln -sf "$DOTFILES/zathura/zathurarc" "$XDG_CONFIG_HOME/zathura/zathurarc"
 
 
