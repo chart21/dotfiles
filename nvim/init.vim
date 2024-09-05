@@ -9,8 +9,9 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'simeji/winresizer'
     
     ":Files, :Buffers, ... to fzf, Rg to fzf grep
+    
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-
     " Need checking
     Plug 'simnalamburt/vim-mundo'
     
@@ -37,13 +38,6 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     
-    "Chatgpt nvim:
-    "Requirements for chatgpt
-    Plug 'MunifTanjim/nui.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug  'nvim-telescope/telescope.nvim'
-    "Plugin
-    Plug 'jackMort/ChatGPT.nvim'
 
     
 
@@ -171,7 +165,6 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-clangd',
             \ 'coc-cmake',
-            \ 'coc-tabnine',
             \ 'coc-stylelintplus',
             \ 'coc-docker',
             \ 'coc-markdownlint',
@@ -184,6 +177,7 @@ let g:coc_global_extensions = [
             \ 'coc-clang-format-style-options'
             \]
 
+            " \ 'coc-tabnine',
 
 "             \ 'coc-spell-checker', -> can be annoying
 
@@ -472,7 +466,5 @@ nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-F> :NERDTreeFind<CR>
 
-" Chatgpt
 
-lua require 'chatgpt'.setup({})
 

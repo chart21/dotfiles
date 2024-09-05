@@ -13,7 +13,7 @@ _comp_options+=(globdots) # With hidden files
 source ~/dotfiles/zsh/external/completion.zsh
 
 
-source ~/dotfiles/zsh/external/zsh_codex/zsh_codex.plugin.zsh
+# source ~/dotfiles/zsh/external/zsh_codex/zsh_codex.plugin.zsh
 bindkey '^X' create_completion
 
 
@@ -43,8 +43,8 @@ source ~/dotfiles/zsh/external/web-search.zsh
 source ~/dotfiles/zsh/external/bd.zsh
 
 if [ $(command -v "fzf") ]; then
-    source /usr/share/fzf/completion.zsh
-    source /usr/share/fzf/key-bindings.zsh
+    source ~/dotfiles/zsh/external/fzf/completion.zsh
+    source ~/dotfiles/zsh/external/fzf/key-bindings.zsh
 fi
 
 if [ "$(tty)" = "/dev/tty1" ];
@@ -77,9 +77,9 @@ bindkey -r '^g'
 bindkey -s '^g' 'clear\n'
 
 source ~/dotfiles/zsh/external/dirhistory.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
+source ~/dotfiles/zsh/external/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/dotfiles/zsh/external/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/dotfiles/zsh/external/you-should-use/you-should-use.plugin.zsh
 
 
 # alt+<- | alt+->
