@@ -144,8 +144,9 @@ assign [class="firefox" instance="Navigator"] $web
 
 focus_follows_mouse no
 
+set $i3lockwall i3lock
 # set $i3lockwall i3lock -i ~/Downloads/wallpaper.png
-set $i3lockwall sh ~/.config/i3/scripts/lock.sh
+# set $i3lockwall sh ~/.config/i3/scripts/lock.sh
 bindsym $mod+CTRL+Shift+l exec --no-startup-id $i3lockwall
 
 # reload the configuration file
