@@ -9,6 +9,10 @@ mkdir -p "$XDG_CONFIG_HOME/nvim/undo"
 
 ln -sf "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim"
 
+########
+# X11 #
+########
+
 rm -rf "$XDG_CONFIG_HOME/X11"
 ln -s "$DOTFILES/X11" "$XDG_CONFIG_HOME"
 
@@ -45,8 +49,8 @@ ln -sf "$DOTFILES/zsh/external" "$XDG_CONFIG_HOME/zsh"
 ## Fonts #
 ##########
 
-#mkdir -p "$XDG_DATA_HOME"
-#cp -rf "$DOTFILES/fonts" "$XDG_DATA_HOME"
+mkdir -p "$XDG_DATA_HOME"
+cp -rf "$DOTFILES/fonts" "$XDG_DATA_HOME"
 
 ##########
 ## dunst #
@@ -60,6 +64,7 @@ ln -sf "$DOTFILES/zsh/external" "$XDG_CONFIG_HOME/zsh"
 #########
 
 mkdir -p "$XDG_CONFIG_HOME/tmux"
+mkdir -p "$XDG_CONFIG_HOME/tmuxp"
 ln -sf "$DOTFILES/tmux/tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
 
 [ ! -d "$XDG_CONFIG_HOME/tmux/plugins" ] \

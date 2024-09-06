@@ -10,7 +10,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Inconsolata NF 16
+font pango:Inconsolata NF 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -38,8 +38,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-# bindsym $mod+Return exec urxvtc
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvtc
 
 # kill focused window
 bindsym $mod+q kill
@@ -97,7 +96,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+bindsym $mod+p focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -146,8 +145,7 @@ assign [class="firefox" instance="Navigator"] $web
 focus_follows_mouse no
 
 # set $i3lockwall i3lock -i ~/Downloads/wallpaper.png
-set $i3lockwall i3lock
-# set $i3lockwall sh ~/.config/i3/scripts/lock.sh
+set $i3lockwall sh ~/.config/i3/scripts/lock.sh
 bindsym $mod+CTRL+Shift+l exec --no-startup-id $i3lockwall
 
 # reload the configuration file
@@ -206,110 +204,111 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-#bindsym $mod+r mode "resize"
+bindsym $mod+r mode "resize"
 
-## special
-#set_from_resource $foreground foreground #000000
-#set_from_resource $background background #FFFFFF
-#set_from_resource $cursorColor cursorColor #000000
+# special
+set_from_resource $foreground foreground #C6C6C6
+set_from_resource $background background #1C1C1C
+set_from_resource $cursorColor cursorColor #C6C6C6
 
-## black
-#set_from_resource $black1 color0 #303030
-#set_from_resource $black2 color8 #000000
-#set $trueblack #000000
+# black
+set_from_resource $black1 color0 #303030
+set_from_resource $black2 color8 #444444
+set $trueblack #000000
 
-## red
-#set_from_resource $red1 color1 #d75f5f
-#set_from_resource $red2 color9 #d75f5f
+# red
+set_from_resource $red1 color1 #d75f5f
+set_from_resource $red2 color9 #d75f5f
 
-## green
-#set_from_resource $green1 color2 #87AF87
-#set_from_resource $green2 color10 #87AF87
+# green
+set_from_resource $green1 color2 #87AF87
+set_from_resource $green2 color10 #87AF87
 
-## yellow
-#set_from_resource $yellow1 color3 #ffd75f
-#set_from_resource $yellow2 color11 #ffd75f
+# yellow
+set_from_resource $yellow1 color3 #ffd75f
+set_from_resource $yellow2 color11 #ffd75f
 
-## blue
-#set_from_resource $blue1 color4 #87afd7
-#set_from_resource $blue2 color12 #87afd7
+# blue
+set_from_resource $blue1 color4 #87afd7
+set_from_resource $blue2 color12 #87afd7
 
-## magenta
-#set_from_resource $cyan1 color5 #afafd7
-#set_from_resource $cyan2 color13 #afafd7
+# magenta
+set_from_resource $cyan1 color5 #afafd7
+set_from_resource $cyan2 color13 #afafd7
 
-## cyan
-#set_from_resource $cyan1 color6 #afd7ff
-#set_from_resource $cyan2 color14 #afd7ff
+# cyan
+set_from_resource $cyan1 color6 #afd7ff
+set_from_resource $cyan2 color14 #afd7ff
 
-## white
-#set_from_resource $white1 color7 #4E4E4E
-#set_from_resource $white2 color15 #ffffff
+# white
+set_from_resource $white1 color7 #4E4E4E
+set_from_resource $white2 color15 #ffffff
 
-###########
-## DESIGN #
-###########
+##########
+# DESIGN #
+##########
 
-## hide borders
-#hide_edge_borders both
+# hide borders
+hide_edge_borders both
 
-## class border backgr. text indicator child_border 
-#client.focused 		#333333 $black2 $white2 #285577
-#client.focused_inactive #333333 $background $foreground #484e50
-#client.unfocused 	#333333 #222222 #888888 #292d2e #222222
-#client.urgent 		$red1 $red1 $white2 $red1 $red1
-#client.placeholder 	#000000 #0c0c0c $white2 #000000 0c0c0c
+# class border backgr. text indicator child_border 
+client.focused 		#333333 $black2 $white2 #285577
+client.focused_inactive #333333 $background $foreground #484e50
+client.unfocused 	#333333 #222222 #888888 #292d2e #222222
+client.urgent 		$red1 $red1 $white2 $red1 $red1
+client.placeholder 	#000000 #0c0c0c $white2 #000000 0c0c0c
 
-#for_window [class="URxvt*"] border pixel 1
+for_window [class="URxvt*"] border pixel 1
 
-## Terminal scratchpad with tmux and three windows: 1. Terminal | 2.Neovim temp file
-#for_window [instance="urxvt_scratchpad"] move to scratchpad, border none
-#bindsym $mod+Shift+t [instance="urxvt_scratchpad"] scratchpad show
-#exec urxvtc -name urxvt_scratchpad \
-#-e tmux -2 new-session -d -s scratchpad \; \
-#new-window -n nvim 'nvim +e /tmp/nvim-tmp.md' \; \
-#attach-session -d -t scratchpad
+# Terminal scratchpad with tmux and three windows: 1. Terminal | 2.Neovim temp file
+for_window [instance="urxvt_scratchpad"] move to scratchpad, border none
+bindsym $mod+Shift+t [instance="urxvt_scratchpad"] scratchpad show
+exec "$DOTFILES/zsh/scratchpad.sh"
 
-## htop scratchpad
-#for_window [instance="htop_scratchpad"] move to scratchpad, border none
-#bindsym $mod+Shift+p [instance="htop_scratchpad"] scratchpad show
-#exec urxvtc -name htop_scratchpad -e htop
+# htop scratchpad
+for_window [instance="htop_scratchpad"] move to scratchpad, border none
+bindsym $mod+Shift+p [instance="htop_scratchpad"] scratchpad show
+exec urxvtc -name htop_scratchpad -e htop
 
-## i3bar
-#bar {
-#    status_command i3status --config ~/.config/i3/i3status.conf
-    
-#    # Disable all tray icons
-#    tray_output none
-
-#    # tray_output primary
-#    colors {
-#        background $white2
-#        statusline $black2
-#        separator $black2
-
-#        # border background text
-#        focused_workspace 	$black2 $black1 $white2
-#        active_workspace 	$white2 $white1 $black2
-#        inactive_workspace 	$white1 $white2 $red2
-#        urgent_workspace 	$red1 $red1 $white2
-#        binding_mode 		$background $red2 $white2
-#    }
-#}
-
-#set $mode_display Config monitor resolution - Default config (d)
-
-#mode "$mode_display" {
-#    bindsym d exec --no-startup-id sh "$HOME/.config/X11/monitor.sh", mode "default"
-
-#    # back to normal: Enter or Escape
-#    bindsym Return mode "default"
-#    bindsym Escape mode "default"
-#}
-#bindsym $mod+x mode "$mode_display"
-
-#exec --no-startup-id dunst
+# i3bar
 bar {
-        status_command i3status
+    status_command i3status --config ~/.config/i3/i3status.conf
+    
+    # Disable all tray icons
+    tray_output none
+
+    # tray_output primary
+    colors {
+        background $black2
+        statusline $white2
+        separator $white2
+
+        # border background text
+        focused_workspace 	$background $background $red1
+        active_workspace 	$black2 $black1 $white2
+        inactive_workspace 	$black1 $black2 $foreground
+        urgent_workspace 	$red1 $red1 $white2
+        binding_mode 		$background $red2 $white2
+    }
 }
+
+set $mode_display Config monitor resolution - Default config (d)
+
+mode "$mode_display" {
+    bindsym d exec --no-startup-id sh "$HOME/.config/X11/monitor.sh", mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+a mode "$mode_display"
+
+exec --no-startup-id dunst
+
+# dunst keyboard shortcuts
+bindsym $mod+x exec dunstctl close-all
+bindsym Ctrl+BackSpace exec dunstctl history-pop
+
+# Remap Caps Lock key when external keyboard is plugged
+bindsym $mod+z exec "setxkbmap -option 'caps:ctrl_modifier';xcape -e 'Caps_Lock=Escape' &"
 

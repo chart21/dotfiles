@@ -42,6 +42,7 @@ bindkey -M vicmd v edit-command-line
 source ~/dotfiles/zsh/external/web-search.zsh
 source ~/dotfiles/zsh/external/bd.zsh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ $(command -v "fzf") ]; then
     source ~/dotfiles/zsh/external/fzf/completion.zsh
     source ~/dotfiles/zsh/external/fzf/key-bindings.zsh
@@ -95,5 +96,6 @@ source $(dirname $(gem which colorls))/tab_complete.sh
 path+=(
     $(ruby -e 'puts File.join(Gem.user_dir, "bin")')
 )
+
 
 
