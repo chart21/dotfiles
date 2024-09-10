@@ -106,7 +106,7 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     " Plug 'cormacrelf/vim-colors-github'
     Plug 'ayu-theme/ayu-vim'
 
-    Plug 'nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'alexander-born/bazel.nvim'
 
 

@@ -11,8 +11,9 @@ you_should_use_dir="$external_dir/you-should-use"
 # Create directories if they don't exist
 mkdir -p $external_dir
 cd $external_dir && find . -type d -exec rm -r {} + && cd $DOTFILES/zsh
+
 # Clone the zsh_codex plugin
-if [ ! -e "$zsh_codex_dir" ]; then
+if [ ! -d "$zsh_codex_dir" ]; then
   git clone https://github.com/tom-doerr/zsh_codex $zsh_codex_dir
 fi
 

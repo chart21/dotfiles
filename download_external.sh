@@ -1,1 +1,1 @@
-sudo apt install ruby npm i3 xorg zathura tmux
+sudo apt install ruby npm i3 xorg zathura tmux ripgrep
