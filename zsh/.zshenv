@@ -13,9 +13,9 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # History filepath
 export HISTFILE="$ZDOTDIR/.zhistory"
 # Maximum events for internal history
-export HISTSIZE=10000
+export HISTSIZE=1000000
 # Maximum events in history file
-export SAVEHIST=10000
+export SAVEHIST=1000000
 
 export DOTFILES="$HOME/dotfiles"
 

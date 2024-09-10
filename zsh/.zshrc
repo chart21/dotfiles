@@ -99,3 +99,13 @@ path+=(
 
 
 
+
+###  RPP-BEGIN  ###
+# Do not change content between BEGIN and END!
+# This section is managed by a script.
+if [[ -d "/usr/libexec/rpp_zshrc.d" ]]; then
+    for rc_script in "/usr/libexec/rpp_zshrc.d/"*; do
+      source "${rc_script}"
+    done
+fi
+###  RPP-END  ###

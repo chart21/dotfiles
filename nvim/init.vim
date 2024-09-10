@@ -105,6 +105,11 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     "Themes
     " Plug 'cormacrelf/vim-colors-github'
     Plug 'ayu-theme/ayu-vim'
+
+    Plug 'nvim-treesitter'
+    Plug 'alexander-born/bazel.nvim'
+
+
     call plug#end()
 
 set clipboard+=unnamedplus
@@ -405,7 +410,7 @@ set termguicolors
 
 set background=light
 " colorschme github
-colorscheme github
+colorscheme flattened_dark
 
 lua require'colorizer'.setup()
 
