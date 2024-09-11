@@ -48,3 +48,5 @@ URxvt*tabbedex.tab-fg: 110
 URxvt*tabbedex.tab-bg: 236
 URxvt*tabbedex.transparent: true
 URxvt*tabbedex.new-button: false
+
+URxvt.perl-ext-common:-confirm-paste

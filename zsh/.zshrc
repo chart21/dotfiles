@@ -29,6 +29,9 @@ setopt PUSHD_SILENT
 #allow comment character '#'
 setopt interactivecomments
 
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 bindkey -v
 export KEYTIMEOUT=1
 
