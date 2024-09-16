@@ -1,4 +1,5 @@
 fpath=($ZDOTDIR/external $fpath)
+fpath=($ZDOTDIR/completions $fpath)
 
 source "$XDG_CONFIG_HOME/zsh/aliases"
 
@@ -100,7 +101,8 @@ path+=(
     $(ruby -e 'puts File.join(Gem.user_dir, "bin")')
 )
 
-
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 
 ###  RPP-BEGIN  ###

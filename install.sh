@@ -44,6 +44,9 @@ ln -sf "$DOTFILES/zsh/.zshrc" "$XDG_CONFIG_HOME/zsh"
 ln -sf "$DOTFILES/zsh/aliases" "$XDG_CONFIG_HOME/zsh/aliases"
 rm -rf "$XDG_CONFIG_HOME/zsh/external"
 ln -sf "$DOTFILES/zsh/external" "$XDG_CONFIG_HOME/zsh"
+ln -sf "$DOTFILES/zsh/completions" "$XDG_CONFIG_HOME/zsh/completions"
+ln -sf "$DOTFILES/zsh/cache" "$XDG_CONFIG_HOME/zsh/cache"
+
 
 ##########
 ## Fonts #
