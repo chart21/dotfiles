@@ -97,3 +97,28 @@ path+=(
 )
 
 
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/christopher/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/christopher/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/christopher/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/christopher/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# notifyd aliases (c1, c2, ...); ZDOTDIR means ~/.zshrc is never read
+[ -f "$HOME/.config/notifyd/aliases.zsh" ] && source "$HOME/.config/notifyd/aliases.zsh"
+# c1-c4: always start with remote control and no permission prompts
+for __a in c1 c2 c3 c4; do
+  unalias $__a 2>/dev/null
+  eval "$__a() { /home/christopher/workspace/notify-app/gateway/.venv/bin/agent-run $__a --remote-control --dangerously-skip-permissions \"\$@\"; }"
+done
+unset __a
