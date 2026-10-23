@@ -47,7 +47,9 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
 
     
 
+    " Off by default: `:Copilot enable` turns it on for the session
     Plug 'github/copilot.vim'
+    let g:copilot_enabled = v:false
 
     Plug 'rafi/awesome-vim-colorschemes'
 
@@ -68,8 +70,6 @@ call plug#begin("$XDG_CONFIG_HOME/nvim/plugged")
     Plug 'cdelledonne/vim-cmake'
     Plug 'antoinemadec/FixCursorHold.nvim'
 
-    " CPP Linter
-    Plug 'vim-syntastic/synstastic'
     " Better pair handling
     Plug 'jiangmiao/auto-pairs'
 
@@ -171,7 +171,6 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-clangd',
             \ 'coc-cmake',
-            \ 'coc-tabnine',
             \ 'coc-stylelintplus',
             \ 'coc-docker',
             \ 'coc-markdownlint',
@@ -239,6 +238,8 @@ endif
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Diagnostics are echoed (coc-settings.json); <leader>i shows the full message in a float.
+nnoremap <silent> <leader>i :call CocActionAsync('diagnosticInfo', 'float')<CR>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -384,6 +385,10 @@ let g:neomake_message_sign = {
             \ }
 let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
 
+" C/C++ is checked by coc-clangd with the project's compile_commands.json;
+" Neomake would compile the file without the project's flags and report bogus errors.
+let g:neomake = {'automake': {'ignore_filetypes': ['startify', 'c', 'cpp']}}
+
 " update neomake when save file
 call neomake#configure#automake('w')
 
@@ -409,19 +414,10 @@ let g:lightline = {'colorscheme': 'one'}
 " set termguicolors
 set termguicolors
 
-set background=light
-" colorschme github
-colorscheme github
+" light/dark follows the desktop toggle (Super+Shift+T): see theme-mode.vim
+runtime theme-mode.vim
 
 lua require'colorizer'.setup()
-
-" CPP Linter Setup
-let g:syntastic_cpp_checkers = ['cpplint']
-let g:syntastic_c_checkers = ['cpplint']
-let g:syntastic_cpp_cpplint_exec = 'cpplint'
-" The following two lines are optional. Configure it to your liking!
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " CMake setup
 let g:cmake_link_compile_commands = 1
@@ -474,5 +470,7 @@ nnoremap <C-F> :NERDTreeFind<CR>
 
 " Chatgpt
 
-lua require 'chatgpt'.setup({})
+if !empty($OPENAI_API_KEY)
+  lua require 'chatgpt'.setup({})
+endif
 
