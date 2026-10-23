@@ -1,7 +1,7 @@
 #!/bin/sh
 # Enable every connected output at its largest mode and highest refresh rate, turn off disconnected ones.
 # With no monitor connected, keep a 1920x1080 framebuffer: X would otherwise shrink it to its 8x8 minimum and
-# x0vncserver would serve that to the laptop. x0vncserver has no RANDR support and never follows a resize, so
+# x0vncserver would serve that to VNC viewers. x0vncserver has no RANDR support and never follows a resize, so
 # it is restarted after every change.
 # Usage: display-auto.sh          apply once
 #        display-auto.sh --watch  apply, then re-apply whenever the set of connected outputs changes
