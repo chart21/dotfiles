@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Keep blue light filters (redshift, gammastep, sct, leftover gamma ramps) off the 1080p screen with EDID "XXX AAA"
+# (575x323 mm, on HDMI-0 in 2026-10): resets its gamma to 1:1:1 whenever anything else changes it, on whichever
+# output it is plugged into. Other screens are left alone. Runs as the user service neutral-gamma.service.
+#
+#   neutral-gamma          watch and reset every few seconds (the service)
+#   neutral-gamma once     reset once and exit
+set -uo pipefail
+EDID_MD5=67e9a5b579e5eff1b58f91ecd58e2697
+INTERVAL=5
+
+# Print "<output> <gamma>" for every connected output. --current reads the cached state, so polling never re-probes
+# the monitors (no flicker). Prints nothing while X is not running.
+outputs() {
+  xrandr --current --verbose 2>/dev/null | awk '
+    function flush() { if (out != "") print out, edid, gamma; out = "" }
+    /^[^ \t]/        { flush(); if ($2 == "connected") { out = $1; edid = ""; gamma = "" } ; inedid = 0; next }
+    /^\tEDID:/       { inedid = 1; next }
+    inedid && /^\t\t[0-9a-f]+$/ { gsub(/[ \t]/, ""); edid = edid $0; next }
+                     { inedid = 0 }
+    /^\tGamma:/      { gamma = $2 }
+    END              { flush() }' |
+  while read -r out edid gamma; do
+    [ "$(printf %s "$edid" | md5sum | cut -d' ' -f1)" = "$EDID_MD5" ] && echo "$out $gamma"
+  done
+}
+
+reset() {
+  outputs | while read -r out gamma; do
+    # gamma is empty while the output has no mode (then there is nothing to reset)
+    if [ -n "$gamma" ] && [ "$gamma" != 1.0:1.0:1.0 ]; then
+      xrandr --output "$out" --gamma 1:1:1 && echo "reset gamma on $out (was $gamma)"
+    fi
+  done
+}
+
+case "${1:-watch}" in
+  once) reset ;;
+  watch) while :; do reset; sleep "$INTERVAL"; done ;;
+  *) echo "usage: neutral-gamma [once|watch]" >&2; exit 2 ;;
+esac

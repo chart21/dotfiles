@@ -1,0 +1,13 @@
+#!/bin/sh
+# Open a urxvt client window; if the urxvtd daemon isn't running (urxvtc exits with 2), start it and retry.
+# Every display gets its own daemon: one daemon serving both :0 and the VNC desktop :1 exits when :1 goes away
+# and takes every :0 terminal with it (happened 2026-10-05 at 23:30).
+case "${DISPLAY:-:0}" in
+  :0|:0.0) ;;
+  *) RXVT_SOCKET="$HOME/.urxvt/urxvtd-$(uname -n)-${DISPLAY#:}"; export RXVT_SOCKET ;;
+esac
+urxvtc "$@"
+if [ $? -eq 2 ]; then
+  urxvtd -q -o -f
+  urxvtc "$@"
+fi

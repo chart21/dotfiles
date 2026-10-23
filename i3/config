@@ -26,6 +26,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+exec --no-startup-id sh $HOME/.config/X11/display-auto.sh --watch
+# Services started by systemd/D-Bus (file dialogs, notifications) belong on the real desktop :0. The VNC desktop :1
+# (TigerVNC's Xsession runs /etc/X11/xinit/xinitrc.d/50-systemd-user.sh) exports DISPLAY=:1 when it starts; this
+# undoes that on :1 and changes nothing on :0 (2026-10-11: Firefox had no upload or save dialogs).
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -34,11 +39,16 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# Volume fallback for keyboards without media keys (Super+PageUp/PageDown/End)
+bindsym $mod+Prior exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym $mod+Next exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym $mod+End exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvtc
+bindsym $mod+Return exec --no-startup-id ~/dotfiles/i3/scripts/terminal
 
 # kill focused window
 bindsym $mod+q kill
@@ -244,6 +254,13 @@ set_from_resource $cyan2 color14 #afd7ff
 set_from_resource $white1 color7 #4E4E4E
 set_from_resource $white2 color15 #ffffff
 
+# light/dark mode colours (~/.config/X11/theme-{light,dark}.Xresources, toggled with $mod+Shift+t)
+set_from_resource $bar_bg i3wm.barBg #ffffff
+set_from_resource $bar_fg i3wm.barFg #000000
+set_from_resource $bar_dim i3wm.barDim #aaaaaa
+set_from_resource $focus_bg i3wm.focusBg #000000
+set_from_resource $focus_fg i3wm.focusFg #ffffff
+
 ##########
 # DESIGN #
 ##########
@@ -252,7 +269,7 @@ set_from_resource $white2 color15 #ffffff
 hide_edge_borders both
 
 # class border backgr. text indicator child_border 
-client.focused 		#333333 $black2 $white2 #285577
+client.focused 		#333333 $focus_bg $focus_fg #285577
 client.focused_inactive #333333 $background $foreground #484e50
 client.unfocused 	#333333 #222222 #888888 #292d2e #222222
 client.urgent 		$red1 $red1 $white2 $red1 $red1
@@ -262,7 +279,9 @@ for_window [class="URxvt*"] border pixel 1
 
 # Terminal scratchpad with tmux and three windows: 1. Terminal | 2.Neovim temp file
 for_window [instance="urxvt_scratchpad"] move to scratchpad, border none
-bindsym $mod+Shift+t [instance="urxvt_scratchpad"] scratchpad show
+bindsym $mod+grave [instance="urxvt_scratchpad"] scratchpad show
+# light/dark mode for terminals, i3, Neovim, GTK and browsers
+bindsym $mod+Shift+t exec --no-startup-id ~/.config/X11/theme-mode toggle
 exec urxvtc -name urxvt_scratchpad \
 -e tmux -2 new-session -d -s scratchpad \; \
 new-window -n nvim 'nvim +e /tmp/nvim-tmp.md' \; \
@@ -282,14 +301,14 @@ bar {
 
     # tray_output primary
     colors {
-        background $white2
-        statusline $black2
-        separator $black2
+        background $bar_bg
+        statusline $bar_fg
+        separator $bar_fg
 
         # border background text
-        focused_workspace 	$black2 $black1 $white2
-        active_workspace 	$white2 $white1 $black2
-        inactive_workspace 	$white1 $white2 $red2
+        focused_workspace 	$focus_bg $focus_bg $focus_fg
+        active_workspace 	$bar_bg $bar_dim $bar_fg
+        inactive_workspace 	$bar_dim $bar_bg $red2
         urgent_workspace 	$red1 $red1 $white2
         binding_mode 		$background $red2 $white2
     }
@@ -299,6 +318,7 @@ set $mode_display Config monitor resolution - Default config (d)
 
 mode "$mode_display" {
     bindsym d exec --no-startup-id sh "$HOME/.config/X11/monitor.sh", mode "default"
+    bindsym a exec --no-startup-id sh "$HOME/.config/X11/display-auto.sh", mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -307,4 +327,8 @@ mode "$mode_display" {
 bindsym $mod+x mode "$mode_display"
 
 exec --no-startup-id dunst
+exec --no-startup-id ~/.config/X11/theme-mode apply
 
+
+# mail sync for the agents (personal/connect.sh)
+exec --no-startup-id ~/workspace/personal/bin/thunderbird-session  # stops the headless one (thunderbird-headless.service), hands back on exit

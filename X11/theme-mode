@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Light/dark mode for the whole desktop: terminal palette (X resources + already open urxvt terminals), i3 bar and
+# window titles, every running Neovim, GTK apps and browsers (via the desktop color-scheme setting).
+#
+#   theme-mode [toggle]       switch (bound to Super+Shift+T in i3)
+#   theme-mode light|dark     set explicitly
+#   theme-mode apply          re-apply the saved mode (run at i3 start)
+#   theme-mode status         print the current mode
+set -uo pipefail
+DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+STATE="${XDG_CONFIG_HOME:-$HOME/.config}/theme-mode"
+current() { [ "$(cat "$STATE" 2>/dev/null)" = dark ] && echo dark || echo light; }
+
+case "${1:-toggle}" in
+  toggle) mode=$([ "$(current)" = dark ] && echo light || echo dark) ;;
+  light|dark) mode=$1 ;;
+  apply) mode=$(current) ;;
+  status) current; exit 0 ;;
+  *) sed -n '2,9p' "$0" >&2; exit 2 ;;
+esac
+PAL="$DIR/theme-$mode.Xresources"
+[ -f "$PAL" ] || { echo "theme-mode: missing $PAL" >&2; exit 1; }
+echo "$mode" > "$STATE"
+export DISPLAY="${DISPLAY:-:0}"
+
+# 1. X resources: new terminals and i3's set_from_resource read them.
+xrdb -merge "$PAL"
+
+# 2. Open urxvt terminals: recolour live with OSC escape sequences written to each terminal's tty.
+val() { sed -n "s/^\*$1:[[:space:]]*//p" "$PAL" | head -1; }
+osc="\033]10;$(val foreground)\007\033]11;$(val background)\007\033]12;$(val cursorColor)\007\033]708;$(val background)\007"
+for i in $(seq 0 15); do osc+="\033]4;$i;$(val "color$i")\007"; done
+for parent in $(pgrep -x urxvtd) $(pgrep -x urxvt); do
+  for child in $(pgrep -P "$parent"); do readlink "/proc/$child/fd/0" 2>/dev/null; done
+done | sort -u | while read -r tty; do
+  case "$tty" in /dev/pts/*) [ -w "$tty" ] && printf '%b' "$osc" > "$tty" ;; esac
+done
+
+# 3. i3: reload re-reads the resources (bar, window titles); layout and windows stay as they are.
+i3-msg -q reload 2>/dev/null
+
+# 4. Every running Neovim re-sources the shared snippet (background + colorscheme + statusline).
+for sock in "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/nvim.*.0; do
+  [ -S "$sock" ] && timeout 3 nvim --server "$sock" --remote-expr 'execute("source ~/.config/nvim/theme-mode.vim")' \
+    >/dev/null 2>&1 &
+done
+
+# 5. GTK + browsers: desktop color-scheme (xdg-desktop-portal), GTK theme for new GTK3/4 windows.
+if [ "$mode" = dark ]; then scheme=prefer-dark gtk=Adwaita-dark pref=1; else scheme=default gtk=Adwaita pref=0; fi
+gsettings set org.gnome.desktop.interface color-scheme "$scheme" 2>/dev/null
+gsettings set org.gnome.desktop.interface gtk-theme "$gtk" 2>/dev/null
+for v in 3.0 4.0; do
+  f="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-$v/settings.ini"
+  mkdir -p "${f%/*}"
+  if grep -q '^gtk-application-prefer-dark-theme=' "$f" 2>/dev/null; then
+    sed -i "s/^gtk-application-prefer-dark-theme=.*/gtk-application-prefer-dark-theme=$pref/" "$f"
+  elif grep -q '^\[Settings\]' "$f" 2>/dev/null; then
+    sed -i "/^\[Settings\]/a gtk-application-prefer-dark-theme=$pref" "$f"
+  else
+    printf '[Settings]\ngtk-application-prefer-dark-theme=%s\n' "$pref" >> "$f"
+  fi
+done
+
+wait
+command -v notify-send >/dev/null && notify-send -t 1200 "Theme" "${mode^} mode"
+exit 0
