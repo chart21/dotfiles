@@ -116,8 +116,8 @@ unset __conda_setup
 
 # notifyd aliases (c1, c2, ...); ZDOTDIR means ~/.zshrc is never read
 [ -f "$HOME/.config/notifyd/aliases.zsh" ] && source "$HOME/.config/notifyd/aliases.zsh"
-# c1-c4: always start with remote control and no permission prompts
-for __a in c1 c2 c3 c4; do
+# c1-c3: always start with remote control and no permission prompts
+for __a in c1 c2 c3; do
   unalias $__a 2>/dev/null
   eval "$__a() { /home/christopher/workspace/notify-app/gateway/.venv/bin/agent-run $__a --remote-control --dangerously-skip-permissions \"\$@\"; }"
 done
